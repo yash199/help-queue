@@ -1,0 +1,6 @@
+com\barclays\training\controller\TicketController.class
+com\barclays\training\model\Ticket.class
+com\barclays\training\repository\TicketRepository.class
+com\barclays\training\service\TicketServiceImpl.class
+com\barclays\training\service\TicketService.class
+com\barclays\training\HelpQueue.class
