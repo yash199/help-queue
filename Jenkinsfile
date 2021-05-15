@@ -13,7 +13,7 @@ node {
 		stage('Build JAR') {
 	    	docker.image('maven:3.6.3-jdk-11').inside('-v /root/.m2:/root/.m2') {
 	        	sh 'mvn -B clean package'
-	        	stash includes: '**/target/help-queue.jar', name: 'jar'
+	        	stash includes: 'target/*.jar', name: 'jar'
 	    	}
 	    }
 	     
