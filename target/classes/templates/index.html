@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Help Queue</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+	<div class="container my-2">
+	<h1>Help Queue</h1>
+	<a th:href = "@{/showNewTicketForm}" class="btn btn-primary btn-sm mb-3"> Add Ticket </a>
+
+		<h3>Active Tickets</h3>
+		<input type="text" id="input1" onkeyup="searchKeyword1()" placeholder="Search in active tickets">
+		<table id="firstTable" border="1" class = "table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>
+						<a th:href="@{'/page/' + ${currentPage} + '?sortField=title&sortDir=' + ${reverseSortDir}}">
+							Title</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=author&sortDir=' + ${reverseSortDir}}">
+							Author</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=description&sortDir=' + ${reverseSortDir}}">
+							Description</a>
+					</th>
+					<th>
+						<a th:href="@{'/page/' + ${currentPage} + '?sortField=timestamp&sortDir=' + ${reverseSortDir}}">
+							Time Updated</a>
+					</th>
+					<th> Actions </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="ticket : ${newTickets}">
+					<td th:text="${ticket.title}"></td>
+					<td th:text="${ticket.author}"></td>
+					<td th:text="${ticket.description}"></td>
+					<td th:text="${ticket.timestamp}"></td>
+					<td> <a th:href="@{/showFormForUpdate/{id}(id=${ticket.id})}"><button type="submit"><i class="fa fa-edit"></i></button></a>
+					    <a th:href="@{/deleteTicket/{id}(id=${ticket.id})}"><button type="submit"><i class="fa fa-trash"></i></button></a>
+						<a th:href="@{/doneTicket/{id}(id=${ticket.id})}"><button type="submit"><i class="fa fa-check"></i></button></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div th:if = "${totalPages > 1}">
+			<div class = "row col-sm-10">
+				<div class = "col-sm-2">
+					Total Rows: [[${totalItems}]] 
+				</div>
+				<div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+				</div>
+				<div class = "col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+					<span th:unless="${currentPage < totalPages}">Next</span>
+				</div>
+				
+				 <div class="col-sm-1">
+    				<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+					<span th:unless="${currentPage < totalPages}">Last</span>
+   				 </div>
+			</div>
+		</div>
+
+		<h3>Resolved Tickets</h3>
+		<input type="text" id="input2" onkeyup="searchKeyword2()" placeholder="Search in resolved tickets">
+		<table id="secondTable" border="1" class = "table table-striped table-responsive-md">
+			<thead>
+			<tr>
+				<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=title&sortDir=' + ${reverseSortDir}}">
+						Title</a>
+				</th>
+				<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=author&sortDir=' + ${reverseSortDir}}">
+						Author</a>
+				</th>
+				<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=description&sortDir=' + ${reverseSortDir}}">
+						Description</a>
+				</th>
+				<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=timestamp&sortDir=' + ${reverseSortDir}}">
+						Time Updated</a>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="ticket : ${resolvedTickets}">
+				<td th:text="${ticket.title}"></td>
+				<td th:text="${ticket.author}"></td>
+				<td th:text="${ticket.description}"></td>
+				<td th:text="${ticket.timestamp}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<script>
+		function searchKeyword1() {
+			var input, filter, table, tr, td, i, txtValue;
+			input = document.getElementById("input1");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("firstTable");
+			tr = table.getElementsByTagName("tr");
+
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+
+		function searchKeyword2() {
+			var input, filter, table, tr, td, i, txtValue;
+			input = document.getElementById("input2");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("secondTable");
+			tr = table.getElementsByTagName("tr");
+
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+	</script>
+</body>
+</html>
