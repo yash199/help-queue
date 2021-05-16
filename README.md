@@ -8,7 +8,7 @@ The user can view all un-resolved (new) and resolved tickets in view pane.
 They can also update ticket attributes or can even delete tickets from UI.
 The user can mark the ticket as DONE or resolved and the ticket will move from active to resolved tickets pane.
 
-**Video Link**: TODO
+**Video Link**: https://drive.google.com/file/d/1IbRw7W_Jh2GG78oOM2vXKh8jmCWiv9Z2/view?usp=sharing
 
 **JIRA board**: https://barclays-t-shaped-program.atlassian.net/jira/software/c/projects/BTSP/boards/1/roadmap?shared=&atlOrigin=eyJpIjoiNDczOWFjNGViOGM5NDI1OTg0ZmM3NDlkNWQ2YmNkNGQiLCJwIjoiaiJ9
 
