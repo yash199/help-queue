@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+	name: help-queue-demo
+	namespace: default
+spec:
+	replicas: 2
+	selector:
+		matchLabels:
+			app: help-queue
+	template:
+		metadata:
+			labels:
+				app: help-queue
+		spec:
+			containers:
+				- name: help-queue-back-end
+				  image: yashah19/help-queue:8
